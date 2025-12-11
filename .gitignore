@@ -1,0 +1,5 @@
+node_modules/
+
+# Optional common ignores
+.env
+dist/
