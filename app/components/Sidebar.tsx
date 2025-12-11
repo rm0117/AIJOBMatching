@@ -1,5 +1,3 @@
-import React from "react";
-
 interface SidebarProps {
   activePage: string;
   onChangePage: (page: string) => void;

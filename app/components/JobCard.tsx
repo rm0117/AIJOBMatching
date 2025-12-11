@@ -1,5 +1,4 @@
 // app/components/JobCard.tsx
-import React from "react";
 
 interface Job {
   ID?: string;
