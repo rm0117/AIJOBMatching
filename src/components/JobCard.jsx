@@ -3,8 +3,8 @@ import React from "react";
 
 export default function JobCard({ job, onOpenMail }) {
   const title = job["案件名"] || job["件名"];
-  const location = job["勤務地"];
-  const client = job["事業所名"];
+  const location = job["作業場所"];
+  const workStyle = job["勤務形態"];
   const unitPrice = job["単価"];
   const startDate = job["稼働日付"];
 
@@ -19,7 +19,7 @@ export default function JobCard({ job, onOpenMail }) {
         <h3 className="font-semibold text-lg">{title}</h3>
 
         <p className="text-sm text-slate-600 mt-1">
-          {client} / {location}
+          {location} ／ <span className="text-sm text-slate-600 mt-1">勤務形態: {workStyle}</span>
         </p>
 
         <p className="text-sm text-slate-600 mt-1">単価: {unitPrice}</p>

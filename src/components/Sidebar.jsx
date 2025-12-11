@@ -9,7 +9,7 @@ export default function Sidebar({ activePage, onChangePage }) {
     }`;
 
   return (
-    <aside className="w-64 bg-slate-900 text-white p-4 flex flex-col">
+    <aside className="sidebar-desktop hidden md:flex w-64 bg-slate-900 text-white p-4 flex-col">
       <h1 className="text-2xl font-bold mb-8">AIJOBMatching System</h1>
       <nav>
         <button

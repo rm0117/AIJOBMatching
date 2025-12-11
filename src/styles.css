@@ -2,3 +2,38 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+/* Responsive adjustments */
+.app-root {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Desktop: sidebar visible */
+@media (min-width: 769px) {
+  .mobile-menu-container {
+    display: none !important;
+  }
+}
+
+/* Mobile: sidebar hidden, dropdown visible */
+@media (max-width: 768px) {
+  .app-root {
+    flex-direction: column;
+  }
+  .app-root > aside {
+    display: none !important;
+  }
+  .app-root > .flex-1 {
+    width: 100% !important;
+  }
+  .mobile-menu-container {
+    display: block;
+  }
+}
+
+/* General content area padding */
+.app-root > .flex-1 {
+  display: flex;
+  flex-direction: column;
+}
