@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import JobCard from "../components/JobCard";
+import { useEffect, useState } from 'react';
+import JobCard from '../components/JobCard';
+import MailModal from '../components/MailModal';
 
 const PAGE_SIZE = 50; // 1ページあたり件数
 
@@ -23,9 +24,9 @@ export default function JobsPage() {
   const [jobsError, setJobsError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // モーダル用 state
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [isMailOpen, setIsMailOpen] = useState(false);
+  const [mailTitle, setMailTitle] = useState('');
+  const [mailBody, setMailBody] = useState('');
 
   useEffect(() => {
     async function fetchJobs() {
@@ -59,21 +60,28 @@ export default function JobsPage() {
 
   const totalPages =
     jobs && jobs.length > 0 ? Math.ceil(jobs.length / PAGE_SIZE) : 1;
+
   const safePage = Math.min(currentPage, totalPages);
   const startIndex = (safePage - 1) * PAGE_SIZE;
+
   const visibleJobs = Array.isArray(jobs)
     ? jobs.slice(startIndex, startIndex + PAGE_SIZE)
     : [];
 
-  // モーダル制御用ハンドラ
+  // モーダル制御
   const handleOpenMail = (job: Job) => {
-    setSelectedJob(job);
+    const title = job['案件名'] || job['件名'] || job.ID || 'メール';
+    const body = job['メール本文'] || '—';
+
+    setMailTitle(title);
+    setMailBody(body);
     setIsMailOpen(true);
   };
 
   const handleCloseMail = () => {
     setIsMailOpen(false);
-    setSelectedJob(null);
+    setMailTitle('');
+    setMailBody('');
   };
 
   return (
@@ -123,8 +131,8 @@ export default function JobsPage() {
                 disabled={safePage === 1}
                 className={`px-3 py-1 text-sm rounded border ${
                   safePage === 1
-                    ? "text-gray-400 border-gray-200 cursor-not-allowed"
-                    : "text-gray-700 border-gray-300 hover:bg-gray-100"
+                    ? 'text-gray-400 border-gray-200 cursor-not-allowed'
+                    : 'text-gray-700 border-gray-300 hover:bg-gray-100'
                 }`}
               >
                 前へ
@@ -142,8 +150,8 @@ export default function JobsPage() {
                 disabled={safePage === totalPages}
                 className={`px-3 py-1 text-sm rounded border ${
                   safePage === totalPages
-                    ? "text-gray-400 border-gray-200 cursor-not-allowed"
-                    : "text-gray-700 border-gray-300 hover:bg-gray-100"
+                    ? 'text-gray-400 border-gray-200 cursor-not-allowed'
+                    : 'text-gray-700 border-gray-300 hover:bg-gray-100'
                 }`}
               >
                 次へ
@@ -152,42 +160,11 @@ export default function JobsPage() {
           )}
         </>
       )}
-      {/* 共通のモーダルをここに 1 個だけ描画 */}
-      {isMailOpen && selectedJob && (
-        <MailModal job={selectedJob} onClose={handleCloseMail} />
+
+      {/* ✅ 共通モーダルを1個だけ描画 */}
+      {isMailOpen && (
+        <MailModal title={mailTitle} body={mailBody} onClose={handleCloseMail} />
       )}
     </div>
   );
-
-  function MailModal({ job, onClose }: { job: Job; onClose: () => void }) {
-    const title = job["案件名"] || job["件名"];
-    const mailBody = job["メール本文"];
-
-    return (
-      <div
-        className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-        onClick={onClose}
-      >
-        <div
-          className="bg-white rounded-lg shadow-lg max-w-3xl w-[90%] max-h-[80vh] p-4 overflow-y-auto"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="font-semibold text-lg">{title} のメール本文</h3>
-            <button
-              type="button"
-              onClick={onClose}
-              className="text-slate-500 hover:text-slate-800 text-xl leading-none"
-            >
-              ×
-            </button>
-          </div>
-
-          <pre className="whitespace-pre-wrap text-sm text-slate-800">
-            {mailBody}
-          </pre>
-        </div>
-      </div>
-    );
-  }
 }

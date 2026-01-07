@@ -24,8 +24,8 @@ export default function Sidebar({ activePage, onChangePage }: SidebarProps) {
         </button>
         <button
           type="button"
-          className={itemClass("members")}
-          onClick={() => onChangePage("members")}
+          className={itemClass("workers")}
+          onClick={() => onChangePage("workers")}
         >
           要員一覧表示
         </button>
