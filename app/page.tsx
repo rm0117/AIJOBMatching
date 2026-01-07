@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import Sidebar from './components/Sidebar';
-import JobsPage from './jobs/page';
+import JobsPage from './pages/jobs';
+import WorkersPage from './pages/workers';
 
 export default function Home() {
   const [activePage, setActivePage] = useState("jobs");
@@ -10,7 +11,7 @@ export default function Home() {
 
   const menuItems = [
     { key: "jobs", label: "案件一覧表示" },
-    { key: "members", label: "要員一覧表示" },
+    { key: "workers", label: "要員一覧表示" },
     { key: "stats", label: "統計情報" }
   ];
 
@@ -18,15 +19,8 @@ export default function Home() {
     switch (activePage) {
       case "jobs":
         return <JobsPage />;
-      case "members":
-        return (
-          <div className="flex-1 p-6">
-            <h2 className="text-xl font-bold mb-4">要員一覧</h2>
-            <p className="text-sm text-slate-600">
-              要員一覧ページはこれから実装します。
-            </p>
-          </div>
-        );
+      case "workers":
+        return <WorkersPage />;
       case "stats":
         return (
           <div className="flex-1 p-6">
